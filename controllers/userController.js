@@ -27,8 +27,7 @@ router.post('/', (req, res)=>{
 })
 
 router.post('/login', (req, res)=>{
-    console.log(req)
-    userModel.find({email:req.uname, pass:req.pass}, (err, docs)=> {
+    userModel.find({email:req.body.uname, pass:req.body.pass}, (err, docs)=> {
         if(!err) res.send(docs)
         else console.log("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
     })
