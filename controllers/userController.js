@@ -12,7 +12,8 @@ router.get('/', (req, res)=>{
 })
 
 router.post('/', (req, res)=>{
-    var newRecord = new userModel({
+    res.send(req.body)
+    /*var newRecord = new userModel({
         name: req.body.name,
         email: req.body.email,
         phone: req.body.phone,
@@ -23,15 +24,14 @@ router.post('/', (req, res)=>{
     newRecord.save((err, docs)=>{
         if(!err) res.send(docs)
         else console.log("error while saving user records "+ JSON.stringify(err, undefined, 2))
-    })
+    })*/
 })
 
 router.post('/login', (req, res)=>{
-    res.send(req.body)
-    /*userModel.find({email:req.body.uname, pass:req.body.pass}, (err, docs)=> {
+    userModel.find({email:req.body.email, pass:req.body.pass}, (err, docs)=> {
         if(!err) res.send(docs)
         else console.log("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
-    })*/
+    })
 })
 
 router.put('/:id', (req, res)=>{
