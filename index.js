@@ -7,7 +7,7 @@ var userRoutes = require('./controllers/userController')
 var practiceRoutes = require('./controllers/practiceController')
 var app = express()
 
-//app.use(cors())
+app.use(cors())
 app.use(express.json())
 const port = 8080;
 
