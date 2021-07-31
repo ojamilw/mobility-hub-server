@@ -2,7 +2,7 @@ const express = require('express')
 var router = express.Router()
 var ObjectID = require('mongoose').Types.ObjectId
 
-var { userModel } = require('../models/userModel')
+var { userModel } = require('../models/dbModels')
 
 router.get('/', (req, res)=>{
     userModel.find((err, docs)=> {
@@ -13,7 +13,7 @@ router.get('/', (req, res)=>{
 
 router.post('/', (req, res)=>{
     res.send(req.body)
-    /*var newRecord = new userModel({
+    var newRecord = new userModel({
         name: req.body.name,
         email: req.body.email,
         phone: req.body.phone,
@@ -24,7 +24,7 @@ router.post('/', (req, res)=>{
     newRecord.save((err, docs)=>{
         if(!err) res.send(docs)
         else console.log("error while saving user records "+ JSON.stringify(err, undefined, 2))
-    })*/
+    })
 })
 
 router.post('/login', (req, res)=>{

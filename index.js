@@ -1,11 +1,13 @@
 require('./db')
 const express = require('express') 
-const bodyParser = require('body-parser')
 var cors = require('cors')
-var concat = require('concat-stream');
 var userRoutes = require('./controllers/userController')
 var practiceRoutes = require('./controllers/practiceController')
 var serviceRoutes = require('./controllers/serviceController')
+var cateogryRoutes = require('./controllers/categoryController')
+var brandRoutes = require('./controllers/brandController')
+var skuRoutes = require('./controllers/skuController')
+
 var app = express()
 
 app.use(cors())
@@ -15,5 +17,8 @@ const port = 8080;
 app.use('/user', userRoutes)
 app.use('/service', serviceRoutes)
 app.use('/practice', practiceRoutes)
+app.use('/category', cateogryRoutes)
+app.use('/brand', brandRoutes)
+app.use('/sku', skuRoutes)
 
 app.listen(port, ()=>console.log(`Server Started at ${port}`))
