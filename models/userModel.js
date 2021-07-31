@@ -8,4 +8,4 @@ var userModel = mongoose.model('user', {
     pass: {type:String},
 })
 
-module.exports = { userModel }
+module.exports = { userModel } 
