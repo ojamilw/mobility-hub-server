@@ -5,7 +5,42 @@ var ObjectID = require('mongoose').Types.ObjectId
 var { definedServiceModel } = require('../models/dbModels')
 
 router.get('/:id', (req, res)=>{
-    definedServiceModel.find({user:req.params.id}, (err, docs)=> {
+    definedServiceModel.aggregate(
+        [
+            {
+                $lookup: {
+                   from: "services", 
+                   localField: "string",
+                   foreignField: "string",
+                   as: "service"
+                }
+            },
+            {
+                $lookup: {
+                   from: "categories", 
+                   localField: "string",
+                   foreignField: "string",
+                   as: "category"
+                }
+            },
+            {
+                $lookup: {
+                   from: "brands", 
+                   localField: "string",
+                   foreignField: "string",
+                   as: "brand"
+                }
+            },
+            {
+                $lookup: {
+                   from: "skus", 
+                   localField: "string",
+                   foreignField: "string",
+                   as: "sku"
+                }
+            },
+            { $match : { user : req.params.id } }
+        ], (err, docs)=> {
         if(!err) res.send(docs)
         else console.log("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
     })
