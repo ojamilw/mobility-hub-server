@@ -7,6 +7,7 @@ var serviceRoutes = require('./controllers/serviceController')
 var cateogryRoutes = require('./controllers/categoryController')
 var brandRoutes = require('./controllers/brandController')
 var skuRoutes = require('./controllers/skuController')
+var definedServiceRoutes = require('./controllers/definedServiceController')
 
 var app = express()
 
@@ -20,5 +21,6 @@ app.use('/practice', practiceRoutes)
 app.use('/category', cateogryRoutes)
 app.use('/brand', brandRoutes)
 app.use('/sku', skuRoutes)
+app.use('/definedService', definedServiceRoutes)
 
 app.listen(port, ()=>console.log(`Server Started at ${port}`))

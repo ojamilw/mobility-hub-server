@@ -25,10 +25,23 @@ var skuModel = mongoose.model('sku', {
     name: {type:String},
 });
 
+var definedServiceModel = mongoose.model('definedService', {
+    user: {type:String},
+    service: {type:String},
+    category: {type:String},
+    brand: {type:String},
+    sku: {type:String},
+    price: {type:Number},
+    duration: {type:Number},
+    dateFrom: {type:Date},
+    dateTo: {type:Date},
+});
+
 module.exports = { 
     userModel, 
     serviceModel, 
     categoryModel,
     brandModel,
-    skuModel
+    skuModel,
+    definedServiceModel
 } 
