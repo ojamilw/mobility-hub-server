@@ -62,7 +62,7 @@ router.post('/', (req, res)=>{
 
     newRecord.save((err, docs)=>{
         if(!err) res.send(docs)
-        else res.send("Data : ",red.body," error while saving records ",JSON.stringify(err, undefined, 2))
+        else res.send("Data : ",req.body," error while saving records ",JSON.stringify(err, undefined, 2))
     })
 })
 
