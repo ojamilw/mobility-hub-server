@@ -47,6 +47,7 @@ router.get('/:id', (req, res)=>{
 })
 
 router.post('/', (req, res)=>{
+    
     var newRecord = new definedServiceModel({
         user: req.body.user,
         service: req.body.service,
@@ -61,7 +62,7 @@ router.post('/', (req, res)=>{
 
     newRecord.save((err, docs)=>{
         if(!err) res.send(docs)
-        else console.log("error while saving records "+ JSON.stringify(err, undefined, 2))
+        else res.send("error while saving records "+ JSON.stringify(err, undefined, 2))
     })
 })
 
