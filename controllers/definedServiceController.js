@@ -47,23 +47,23 @@ router.get('/:id', (req, res)=>{
 })
 
 router.post('/', (req, res)=>{
-    res.send(req.body)
-    // var newRecord = new definedServiceModel({
-    //     user: req.body.user,
-    //     service: req.body.service,
-    //     category: req.body.category,
-    //     brand: req.body.brand,
-    //     sku: req.body.sku,
-    //     price: req.body.price,
-    //     duration: req.body.duration,
-    //     timeFrom: req.body.timeFrom,
-    //     timeTo: req.body.timeTo
-    // })
 
-    // newRecord.save((err, docs)=>{
-    //     if(!err) res.send(docs)
-    //     else res.send("error while saving records "+ JSON.stringify(err, undefined, 2))
-    // })
+    var newRecord = new definedServiceModel({
+        user: req.body.user,
+        service: req.body.service,
+        category: req.body.category,
+        brand: req.body.brand,
+        sku: req.body.sku,
+        price: req.body.price,
+        duration: req.body.duration,
+        timeFrom: req.body.timeFrom,
+        timeTo: req.body.timeTo
+    })
+
+    newRecord.save((err, docs)=>{
+        if(!err) res.send(docs)
+        else res.send("error while saving records "+ JSON.stringify(err, undefined, 2))
+    })
 })
 
 
