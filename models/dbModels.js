@@ -26,13 +26,13 @@ var skuModel = mongoose.model('sku', {
 });
 
 var definedServiceModel = mongoose.model('definedService', {
-    user: {type:String},
-    service: {type:String},
-    category: {type:String},
-    brand: {type:String},
-    sku: {type:String},
-    price: {type:Number},
-    duration: {type:Number},
+    user: {type:String, required: true},
+    service: {type:String, required: true},
+    category: {type:String, required: true},
+    brand: {type:String, required: true},
+    sku: {type:String, required: true},
+    price: {type:Number, required: true},
+    duration: {type:Number, required: true},
     dateFrom: {type:Date},
     dateTo: {type:Date},
 });
