@@ -47,7 +47,7 @@ router.get('/:id', (req, res)=>{
 })
 
 router.post('/', (req, res)=>{
-    console.log(req.body)
+    res.send(req.body)
     // var newRecord = new definedServiceModel({
     //     user: req.body.user,
     //     service: req.body.service,
