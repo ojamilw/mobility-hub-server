@@ -11,6 +11,13 @@ router.get('/', (req, res)=>{
     })
 })
 
+router.get('/:id', (req, res)=>{
+    userModel.find({_id:req.params.id},(err, docs)=> {
+        if(!err) res.send(docs)
+        else console.log("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
+    })
+})
+
 router.post('/', (req, res)=>{
     res.send(req.body)
     var newRecord = new userModel({
