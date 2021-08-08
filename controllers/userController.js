@@ -7,14 +7,14 @@ var { userModel } = require('../models/dbModels')
 router.get('/', (req, res)=>{
     userModel.find((err, docs)=> {
         if(!err) res.send(docs)
-        else console.log("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
+        else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
     })
 })
 
 router.get('/:id', (req, res)=>{
     userModel.find({_id:req.params.id},(err, docs)=> {
         if(!err) res.send(docs)
-        else console.log("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
+        else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
     })
 })
 
@@ -30,14 +30,22 @@ router.post('/', (req, res)=>{
 
     newRecord.save((err, docs)=>{
         if(!err) res.send(docs)
-        else console.log("error while saving user records "+ JSON.stringify(err, undefined, 2))
+        else res.send("error while saving user records "+ JSON.stringify(err, undefined, 2))
     })
+})
+
+router.post('/image/:id', (req, res)=>{
+    res.send(req.params.id)
+    // newRecord.save((err, docs)=>{
+    //     if(!err) res.send(docs)
+    //     else res.send("error while saving user records "+ JSON.stringify(err, undefined, 2))
+    // })
 })
 
 router.post('/login', (req, res)=>{
     userModel.find({email:req.body.email, pass:req.body.pass}, (err, docs)=> {
         if(!err) res.send(docs)
-        else console.log("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
+        else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
     })
 })
 
@@ -52,7 +60,7 @@ router.put('/:id', (req, res)=>{
 
     userModel.findByIdAndUpdate(req.params.id, {$set: updateRecord}, (err, docs)=>{
         if(!err) res.send(docs)
-        else console.log("error while updating user records "+ JSON.stringify(err, undefined, 2))
+        else res.send("error while updating user records "+ JSON.stringify(err, undefined, 2))
     })
 })
 
@@ -62,7 +70,7 @@ router.delete('/:id', (req, res)=>{
 
     userModel.findByIdAndRemove(req.params.id, (err, docs)=>{
         if(!err) res.send(docs)
-        else console.log("error while removing user records "+ JSON.stringify(err, undefined, 2))
+        else res.send("error while removing user records "+ JSON.stringify(err, undefined, 2))
     })
 })
 
