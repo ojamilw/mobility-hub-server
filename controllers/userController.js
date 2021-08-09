@@ -36,7 +36,7 @@ router.post('/', (req, res)=>{
 })
 
 router.post('/image/:id', (req, res)=>{
-    res.send(req.params.id)
+    res.send(req)
     // const baseUploadPath = '../uploads/avatars/'
     // fs.writeFile(baseUploadPath+'.txt', lyrics, (err) => {
     //     // throws an error, you could also catch it here
