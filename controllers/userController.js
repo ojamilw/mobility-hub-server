@@ -35,7 +35,7 @@ router.post('/', (req, res)=>{
     })
 })
 
-router.post('/image/:id', (req, res)=>{
+router.post('/image', (req, res)=>{
     console.log(req)
     //res.send(req.data)
     // const baseUploadPath = '../uploads/avatars/'
