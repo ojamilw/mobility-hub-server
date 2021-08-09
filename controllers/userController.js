@@ -51,7 +51,7 @@ router.post('/', (req, res)=>{
 //     //     else res.send("error while saving user records "+ JSON.stringify(err, undefined, 2))
 //     // })
 // })
-router.post('/image', (req, res,next) => {
+router.post('/image/:id', (req, res,next) => {
         res.send("all is well")
 //     console.log(req.file);//this will be automatically set by multer
 //     console.log(req.body);
