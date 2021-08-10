@@ -2,13 +2,10 @@ const express = require('express')
 var router = express.Router()
 var ObjectID = require('mongoose').Types.ObjectId
 var { userModel } = require('../models/dbModels')
-const multer = require("multer");
-var path = require('path');
-var appDir = path.dirname(require.main.filename);
-const upload = multer({
-    dest: "/uploads"
-    // you might also want to set some limits: https://github.com/expressjs/multer#limits
-  });
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
+
 router.get('/', (req, res)=>{
     userModel.find((err, docs)=> {
         if(!err) res.send(docs)
