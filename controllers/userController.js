@@ -3,9 +3,6 @@ var router = express.Router()
 var ObjectID = require('mongoose').Types.ObjectId
 var { userModel } = require('../models/dbModels')
 
-var multer  = require('multer');
-var upload = multer({ dest: 'uploads/' });
-
 router.get('/', (req, res)=>{
     userModel.find((err, docs)=> {
         if(!err) res.send(docs)
