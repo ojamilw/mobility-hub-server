@@ -3,6 +3,7 @@ var router = express.Router()
 var ObjectID = require('mongoose').Types.ObjectId
 var { userModel } = require('../models/dbModels')
 const multer = require("multer");
+var path = require('path');
 var appDir = path.dirname(require.main.filename);
 const upload = multer({
     dest: "/uploads"
