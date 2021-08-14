@@ -13,6 +13,13 @@ router.get('/', (req, res)=>{
     })
 })
 
+router.get('/type/:id', (req, res)=>{
+    userModel.find({type:req.params.id},(err, docs)=> {
+        if(!err) res.send(docs)
+        else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
+    })
+})
+
 router.get('/:id', (req, res)=>{
     userModel.find({_id:req.params.id},(err, docs)=> {
         if(!err) res.send(docs)
