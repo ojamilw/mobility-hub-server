@@ -60,6 +60,7 @@ var universalServiceModel = mongoose.model('universalService', {
     category: {type:String, required: true},
     service: {type:String, required: true},
     type: {type:Array},
+    datetime: {type:Date}
 })
 
 module.exports = { 
