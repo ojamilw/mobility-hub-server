@@ -8,6 +8,9 @@ var cateogryRoutes = require('./controllers/categoryController')
 var brandRoutes = require('./controllers/brandController')
 var skuRoutes = require('./controllers/skuController')
 var definedServiceRoutes = require('./controllers/definedServiceController')
+var parserControllerRoutes = require('./controllers/parserController')
+var rating_reviewControllerRoutes = require('./controllers/rating_reviewController')
+var universalServiceControllerRoutes = require('./controllers/universalServiceController')
 
 var app = express()
 
@@ -23,4 +26,8 @@ app.use('/brand', brandRoutes)
 app.use('/sku', skuRoutes)
 app.use('/definedService', definedServiceRoutes)
 
+app.use('/rating_review', rating_reviewControllerRoutes)
+app.use('/universalService', universalServiceControllerRoutes)
+
+app.use('/parser', parserControllerRoutes)
 app.listen(port, ()=>console.log(`Server Started at ${port}`))

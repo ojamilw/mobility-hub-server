@@ -1,11 +1,22 @@
 const mongoose = require('mongoose')
 
 var userModel = mongoose.model('user', {
-    name: {type:String},
-    email: {type:String},
-    phone: {type:String},
+    business_status : {type:String},
+    formatted_address : {type:String},
+    geometry : {type:Array},
+    icon : {type:String},
+    name : {type:String},
+    photos : {type:Array},
+    reference : {type:String},
+    types : {type:Array},
+    parther_site : {type:Boolean},
+    active_status : {type:Boolean},
+    description : {type:String},
+    email : {type:String},
+    phone : {type:String},
+    social : {type:Array},
+    password : {type:String},
     type: {type:Number},
-    pass: {type:String},
 });
 
 var serviceModel = mongoose.model('service', {
@@ -37,11 +48,27 @@ var definedServiceModel = mongoose.model('definedService', {
     dateTo: {type:Date},
 });
 
+var rating_reviewModel = mongoose.model('rating_review', {
+    consumer: {type:String, required: true},
+    service: {type:String, required: true},
+    serviceProvider: {type:String, required: true},
+    rating: {type:String, required: true},
+    review: {type:String, required: true},
+})
+
+var universalServiceModel = mongoose.model('universalService', {
+    category: {type:String, required: true},
+    service: {type:String, required: true},
+    type: {type:Array},
+})
+
 module.exports = { 
     userModel, 
     serviceModel, 
     categoryModel,
     brandModel,
     skuModel,
-    definedServiceModel
+    definedServiceModel,
+    rating_reviewModel,
+    universalServiceModel
 } 

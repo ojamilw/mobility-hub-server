@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
-mongoose.connect('mongodb+srv://zain:YrnT0taaSbbarCdv@mobilityhub.bbuyh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',{useNewUrlParser:true, useUnifiedTopology:true},
+var uri = 'mongodb+srv://zain:YrnT0taaSbbarCdv@mobilityhub.bbuyh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+mongoose.connect(uri,{useNewUrlParser:true, useUnifiedTopology:true},
 err => {
     if(!err)
         console.log("DB connected");
