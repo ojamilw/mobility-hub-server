@@ -5,7 +5,24 @@ var { universalServiceModel } = require('../models/dbModels')
 
 
 router.get('/', (req, res)=>{
-    universalServiceModel.find((err, docs)=> {
+    universalServiceModel.aggregate([
+        {
+            $lookup: {
+               from: "services",
+               localField: "string",
+               foreignField: "string",
+               as: "service"
+            }
+        },
+        {
+            $lookup: {
+               from: "categories", 
+               localField: "string",
+               foreignField: "string",
+               as: "category"
+            }
+        }
+    ],(err, docs)=> {
         if(!err) res.send(docs)
         else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
     })
