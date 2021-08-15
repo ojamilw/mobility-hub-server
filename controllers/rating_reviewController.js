@@ -13,7 +13,7 @@ router.get('/', (req, res)=>{
  
 
 router.get('/:id', (req, res)=>{
-    rating_reviewModel.find({_id:req.params.id},(err, docs)=> {
+    rating_reviewModel.find({serviceProvider:req.params.id},(err, docs)=> {
         if(!err) res.send(docs)
         else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
     })
