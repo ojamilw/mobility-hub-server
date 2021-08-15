@@ -20,14 +20,13 @@ router.get('/:id', (req, res)=>{
 })
 
 router.post('/', (req, res)=>{
-    res.send(req.body)
     var newRecord = new rating_reviewModel({
         consumer: req.body.consumer,
         service: req.body.service,
         serviceProvider: req.body.serviceProvider,
         rating: req.body.rating, 
         review: req.body.review,
-        datetime:req.body.datetime,
+        datetime:Date.now(),
     })
 
     newRecord.save((err, docs)=>{
