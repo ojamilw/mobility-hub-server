@@ -54,6 +54,7 @@ var rating_reviewModel = mongoose.model('rating_review', {
     serviceProvider: {type:String, required: true},
     rating: {type:String, required: true},
     review: {type:String, required: true},
+    datetime: {type:Date, required: true},
 })
 
 var universalServiceModel = mongoose.model('universalService', {
