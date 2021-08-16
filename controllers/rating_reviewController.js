@@ -13,7 +13,26 @@ router.get('/', (req, res)=>{
  
 
 router.get('/:id', (req, res)=>{
-    rating_reviewModel.find({serviceProvider:req.params.id},(err, docs)=> {
+    rating_reviewModel.aggregate([
+        { $addFields: { "userObjectId": { "$toObjectId": "$consumer" }}},
+        {
+            $lookup: {
+               from: "users", 
+               localField: "userObjectId",
+               foreignField: "_id",
+               as: "consumerdetail"
+            }
+        },
+        {
+            $lookup: {
+               from: "universalservices", 
+               localField: "string",
+               foreignField: "string",
+               as: "service"
+            }
+        },
+        { $match : { serviceProvider : req.params.id } },
+    ],(err, docs)=> {
         if(!err) res.send(docs)
         else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
     })
