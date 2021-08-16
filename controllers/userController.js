@@ -44,7 +44,7 @@ router.post('/', (req, res)=>{
 })
 
 router.post('/image', (req, res)=>{
-    res.send("all is well")
+    res.send("all is well", req.body.user)
     // newRecord.save((err, docs)=>{
     //     if(!err) res.send(docs)
     //     else res.send("error while saving user records "+ JSON.stringify(err, undefined, 2))
