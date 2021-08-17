@@ -46,22 +46,11 @@ router.post('/', (req, res)=>{
         rating: req.body.rating, 
         review: req.body.review,
         datetime: Date.now(),
-        images: req.body.images ? req.body.images.length : 0
+        images: req.body.images,
     })
 
     newRecord.save((err, docs)=>{
-        if(!err) {
-            if(req.body.images && req.body.images.length > 0){
-                req.body.images.map((item, key)=> {
-                    fs.writeFile(`./uploads/${docs._id+'_'+key}.png`, item, 'base64', (err) => {
-                        if (err) res.send(err)
-                    })
-                    res.send(true)
-                })
-            } else {
-                res.send(docs)
-            }
-        }
+        if(!err) res.send(docs)
         else res.send("error while saving user records "+ JSON.stringify(err, undefined, 2))
     })
 })
