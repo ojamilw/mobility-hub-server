@@ -4,7 +4,6 @@ var ObjectID = require('mongoose').Types.ObjectId
 var { userModel } = require('../models/dbModels')
 const fs = require('fs')
 
-
 router.get('/', (req, res)=>{
     userModel.find((err, docs)=> {
         if(!err) res.send(docs)
@@ -51,6 +50,15 @@ router.post('/image/:id', (req, res)=>{
         res.send(true)
     } catch (error) {
         console.log(error)
+    }
+})
+
+router.get('/image/:id', (req, res)=>{
+    if (fs.existsSync(`./uploads/${req.params.id}.png`)) {
+        var imageAsBase64 = fs.readFileSync(`./uploads/${req.params.id}.png`, 'base64');
+        res.send({profile: imageAsBase64})
+    } else {
+        res.send({profile: null})
     }
 })
 
