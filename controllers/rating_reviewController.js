@@ -2,7 +2,7 @@ const express = require('express')
 var router = express.Router()
 var ObjectID = require('mongoose').Types.ObjectId
 var { rating_reviewModel } = require('../models/dbModels')
-
+const fs = require('fs')
 
 router.get('/', (req, res)=>{
     rating_reviewModel.find((err, docs)=> {
@@ -45,11 +45,23 @@ router.post('/', (req, res)=>{
         serviceProvider: req.body.serviceProvider,
         rating: req.body.rating, 
         review: req.body.review,
-        datetime:Date.now(),
+        datetime: Date.now(),
+        images: req.body.images ? req.body.images.length : 0
     })
 
     newRecord.save((err, docs)=>{
-        if(!err) res.send(docs)
+        if(!err) {
+            if(req.body.images && req.body.images.length > 0){
+                req.body.images.map((item, key)=> {
+                    fs.writeFile(`./uploads/${docs._id+'_'+key}.png`, item, 'base64', (err) => {
+                        if (err) res.send(err)
+                    })
+                    res.send(true)
+                })
+            } else {
+                res.send(docs)
+            }
+        }
         else res.send("error while saving user records "+ JSON.stringify(err, undefined, 2))
     })
 })

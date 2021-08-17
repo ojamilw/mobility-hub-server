@@ -1,6 +1,8 @@
 require('./db')
 const express = require('express') 
 var cors = require('cors')
+
+
 var userRoutes = require('./controllers/userController')
 var practiceRoutes = require('./controllers/practiceController')
 var serviceRoutes = require('./controllers/serviceController')
@@ -32,4 +34,5 @@ app.use('/rating_review', rating_reviewControllerRoutes)
 app.use('/universalService', universalServiceControllerRoutes)
 
 app.use('/parser', parserControllerRoutes)
+
 app.listen(port, ()=>console.log(`Server Started at ${port}`))
