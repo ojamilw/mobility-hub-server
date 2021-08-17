@@ -44,10 +44,10 @@ router.post('/', (req, res)=>{
 router.post('/image/:id', (req, res)=>{
     try {
         fs.writeFile(`./uploads/${req.params.id}.png`, req.body.imgsource, 'base64', (err) => {
-            if (err) throw err
+            if (err) res.send(err)
+            else res.send(true)
         })
-        res.status(200)
-        res.send(true)
+        
     } catch (error) {
         console.log(error)
     }
