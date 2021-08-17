@@ -2,8 +2,7 @@ const express = require('express')
 var router = express.Router()
 var ObjectID = require('mongoose').Types.ObjectId
 var { userModel } = require('../models/dbModels')
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+const fs = require('fs')
 
 
 router.get('/', (req, res)=>{
@@ -43,12 +42,16 @@ router.post('/', (req, res)=>{
     })
 })
 
-router.post('/image', (req, res)=>{
-    res.send(JSON.stringify(req.body))
-    // newRecord.save((err, docs)=>{
-    //     if(!err) res.send(docs)
-    //     else res.send("error while saving user records "+ JSON.stringify(err, undefined, 2))
-    // })
+router.post('/image/:id', (req, res)=>{
+    try {
+        fs.writeFile(`./uploads/${req.params.id}.png`, req.body.imgsource, 'base64', (err) => {
+            if (err) throw err
+        })
+        res.status(200)
+        res.send(true)
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 router.post('/login', (req, res)=>{
