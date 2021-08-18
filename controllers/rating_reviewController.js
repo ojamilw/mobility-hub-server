@@ -14,7 +14,13 @@ router.get('/', (req, res)=>{
 
 router.get('/:id', (req, res)=>{
     rating_reviewModel.aggregate([
-        { $addFields: { "userObjectId": { "$toObjectId": "$consumer" }}},
+        { 
+            $addFields: { 
+                "userObjectId": { 
+                    "$toObjectId": "$consumer" 
+                }
+            }
+        },
         {
             $lookup: {
                from: "users", 
@@ -35,6 +41,13 @@ router.get('/:id', (req, res)=>{
     ],(err, docs)=> {
         if(!err) res.send(docs)
         else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
+    })
+})
+
+router.get('/:directory/:service', (req, res)=>{
+    rating_reviewModel.find({serviceProvider: req.params.directory, service:req.params.service}, {rating:1}, (err, doc)=> {
+        if(err) res.send(err)
+        else res.send(doc)
     })
 })
 
