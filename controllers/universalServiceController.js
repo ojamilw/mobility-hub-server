@@ -21,7 +21,41 @@ router.get('/', (req, res)=>{
                foreignField: "string",
                as: "category"
             }
-        }
+        },
+        
+    ],(err, docs)=> {
+        if(!err) res.send(docs)
+        else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
+    })
+})
+
+router.get('/:directory/:service', (req, res)=>{
+    universalServiceModel.aggregate([
+        {
+            $lookup: {
+               from: "services",
+               localField: "string",
+               foreignField: "string",
+               as: "service"
+            }
+        },
+        {
+            $lookup: {
+               from: "categories", 
+               localField: "string",
+               foreignField: "string",
+               as: "category"
+            }
+        },
+        {
+            $lookup: {
+               from: "rating_reviews", 
+               localField: "service",
+               foreignField: "service",
+               as: "reviewCount"
+            }
+        },
+        { $match : { serviceProvider : req.params.id } },
     ],(err, docs)=> {
         if(!err) res.send(docs)
         else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
