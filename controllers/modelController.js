@@ -11,6 +11,37 @@ router.get('/', (req, res)=>{
     })
 })
 
+router.get('/:make/:year', (req, res)=>{
+    modelModel.aggregate([
+        { 
+            $addFields: {
+                "makeObject": { "$toObjectId": "$make" },
+                "yearObject": { "$toObjectId": "$year"}
+            }
+        },
+        {
+            $lookup: {
+               from: "makes",
+               localField: "makeObject",
+               foreignField: "_id",
+               as: "themake"
+            }
+        },
+        {
+            $lookup: {
+               from: "yearrs", 
+               localField: "yearObject",
+               foreignField: "_id",
+               as: "theyear"
+            }
+        },
+        {$match : {make: req.params.make, year: req.params.year}}
+    ],(err, docs)=> {
+        if(!err) res.send(docs)
+        else res.send("error while retrieving all records "+ JSON.stringify(err, undefined, 2))
+    })
+})
+
 router.post('/', (req, res)=>{
     var newRecord = new modelModel({
         name: req.body.name,
