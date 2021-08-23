@@ -65,7 +65,26 @@ var universalServiceModel = mongoose.model('universalService', {
     datetime: {type:Date}
 })
 
-module.exports = { 
+var makeModel = mongoose.model('make', {
+    name: {type: String, required:true}
+})
+
+var yearModel = mongoose.model('yearr', {
+    name: {type: String, required:true}
+})
+
+var modelModel = mongoose.model('model', {
+    name: {type: String, required:true},
+    make: {type: String, required:true},
+    year: {type: String, required:true}
+})
+
+var versionModel = mongoose.model('version', {
+    name: {type: String, required:true},
+    model: {type: String, required:true}
+})
+
+module.exports = {
     userModel, 
     serviceModel, 
     categoryModel,
@@ -73,5 +92,9 @@ module.exports = {
     skuModel,
     definedServiceModel,
     rating_reviewModel,
-    universalServiceModel
+    universalServiceModel,
+    makeModel,
+    yearModel,
+    modelModel,
+    versionModel
 } 

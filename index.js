@@ -13,6 +13,9 @@ var definedServiceRoutes = require('./controllers/definedServiceController')
 var parserControllerRoutes = require('./controllers/parserController')
 var rating_reviewControllerRoutes = require('./controllers/rating_reviewController')
 var universalServiceControllerRoutes = require('./controllers/universalServiceController')
+var makeControllerRoutes = require('./controllers/makeController')
+var yearControllerRoutes = require('./controllers/yearController')
+var modelConrollerRoutes = require('./controllers/modelController')
 
 var app = express()
 
@@ -32,6 +35,10 @@ app.use('/definedService', definedServiceRoutes)
 
 app.use('/rating_review', rating_reviewControllerRoutes)
 app.use('/universalService', universalServiceControllerRoutes)
+
+app.use('/make', makeControllerRoutes)
+app.use('/year', yearControllerRoutes)
+app.use('/model', modelConrollerRoutes)
 
 app.use('/parser', parserControllerRoutes)
 
