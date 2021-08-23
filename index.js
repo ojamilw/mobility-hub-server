@@ -16,6 +16,7 @@ var universalServiceControllerRoutes = require('./controllers/universalServiceCo
 var makeControllerRoutes = require('./controllers/makeController')
 var yearControllerRoutes = require('./controllers/yearController')
 var modelConrollerRoutes = require('./controllers/modelController')
+var versionControllerRoutes = require('./controllers/versionController')
 
 var app = express()
 
@@ -39,6 +40,7 @@ app.use('/universalService', universalServiceControllerRoutes)
 app.use('/make', makeControllerRoutes)
 app.use('/year', yearControllerRoutes)
 app.use('/model', modelConrollerRoutes)
+app.use('/version', versionControllerRoutes)
 
 app.use('/parser', parserControllerRoutes)
 

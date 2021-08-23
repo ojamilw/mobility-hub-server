@@ -11,9 +11,32 @@ router.get('/', (req, res)=>{
     })
 })
 
+router.get('/:model', (req, res)=>{
+    versionModel.aggregate([
+        {
+            $addFields: {
+                "modelObject": { "$toObjectId": "$model" }
+            }
+        },
+        {
+            $lookup: {
+               from: "models",
+               localField: "modelObject",
+               foreignField: "_id",
+               as: "themodel"
+            }
+        },
+        { $match : {model: req.params.model}},
+    ],(err, docs)=> {
+        if(!err) res.send(docs)
+        else console.log("error while retrieving  all records "+ JSON.stringify(err, undefined, 2))
+    })
+})
+
 router.post('/', (req, res)=>{
     var newRecord = new versionModel({
         name: req.body.name,
+        model:req.body.model
     })
 
     newRecord.save((err, docs)=>{

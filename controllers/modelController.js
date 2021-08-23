@@ -5,7 +5,30 @@ var ObjectID = require('mongoose').Types.ObjectId
 var { modelModel } = require('../models/dbModels')
 
 router.get('/', (req, res)=>{
-    modelModel.find((err, docs)=> {
+    modelModel.aggregate([
+        { 
+            $addFields: {
+                "makeObject": { "$toObjectId": "$make" },
+                "yearObject": { "$toObjectId": "$year"}
+            }
+        },
+        {
+            $lookup: {
+               from: "makes",
+               localField: "makeObject",
+               foreignField: "_id",
+               as: "themake"
+            }
+        },
+        {
+            $lookup: {
+               from: "yearrs", 
+               localField: "yearObject",
+               foreignField: "_id",
+               as: "theyear"
+            }
+        }
+    ],(err, docs)=> {
         if(!err) res.send(docs)
         else console.log("error while retrieving  all records "+ JSON.stringify(err, undefined, 2))
     })
