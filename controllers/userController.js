@@ -41,6 +41,13 @@ router.post('/', (req, res)=>{
     })
 })
 
+router.post('/checking', (req, res)=>{
+    userModel.find({$or:[{email:req.body.email}, {phone:req.body.phone}]},(err, docs)=> {
+        if(!err) res.send(docs)
+        else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
+    })
+})
+
 router.post('/consumer', (req, res)=>{
     var newRecord = new userModel({
         business_status : 'Operational',
