@@ -84,6 +84,19 @@ var versionModel = mongoose.model('version', {
     model: {type: String, required:true}
 })
 
+var mobilityPartnerModel = mongoose.model('mobilitypartner',{
+    name: {type: String, required: true},
+    make: {type: String, required: true},
+    nameID: {type: String, required: true},
+    year: {type: String, required: true},
+    yearID: {type: String, required: true},
+    model: {type: String, required: true},
+    modelID: {type: String, required: true},
+    version: {type: String, required: true},
+    versionID: {type: String, required: true},
+    consumer: {type: String, required: true}
+})
+
 module.exports = {
     userModel, 
     serviceModel, 
@@ -96,5 +109,6 @@ module.exports = {
     makeModel,
     yearModel,
     modelModel,
-    versionModel
+    versionModel,
+    mobilityPartnerModel
 } 

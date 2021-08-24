@@ -1,7 +1,7 @@
 const express = require('express')
 var router = express.Router()
 var ObjectID = require('mongoose').Types.ObjectId
-var { userModel } = require('../models/dbModels')
+var { userModel, mobilityPartnerModel } = require('../models/dbModels')
 const fs = require('fs')
 
 router.get('/', (req, res)=>{
@@ -37,6 +37,65 @@ router.post('/', (req, res)=>{
 
     newRecord.save((err, docs)=>{
         if(!err) res.send(docs)
+        else res.send("error while saving user records "+ JSON.stringify(err, undefined, 2))
+    })
+})
+
+router.post('/consumer', (req, res)=>{
+    var newRecord = new userModel({
+        business_status : 'Operational',
+        formatted_address : 'No Address',
+        geometry : [],
+        icon : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+        name : req.body.name,
+        photos : [
+            {
+                "height" : 270,
+                "html_attributions" : [
+                    "\u003ca href=\"https://maps.google.com/maps/contrib/112645299799014875645\"\u003eA Google User\u003c/a\u003e"
+                ],
+                "photo_reference" : "Aap_uEAT174hx9lAQL3RBdV0qTf0nUbCnx4Q1PMRIJlCoFPXpOGW3oi51_enTMcOJIvG8HKlazXeJIUIrxX7yN0FW51FzLRK8DcbSA4dDlbGtDJlxu4oa5vRIZNn0wDCWrPW7oQy-zTksFsrKhS0X3llC6gK37cQhOLMvseV1_gdGRvKRsvI",
+                "width" : 480
+            }
+        ],
+        reference : 'NO ID',
+        types : [],
+        parther_site: false,
+        active_status: true,
+        description:"no description",
+        email:req.body.email,
+        phone:req.body.phone,
+        social:[
+            {
+                "google": "",
+                "facebook":""
+            }
+        ],
+        password: req.body.pass,
+        type: 2, 
+    })
+
+    newRecord.save((err, docs)=>{
+        if(!err) {
+            req.body.partners.map((item)=> {
+                var new_data = new mobilityPartnerModel({
+                    name: item.nickName,
+                    make: item.make,
+                    nameID: item.makeID,
+                    year: item.year,
+                    yearID: item.yearID,
+                    model: item.model,
+                    modelID: item.modelID,
+                    version: item.version,
+                    versionID: item.versionID,
+                    consumer: docs._id
+                })
+                new_data.save((error, docs)=>{
+                    if(error) console.log(error)
+                })
+            })
+            res.send(docs)
+        }
         else res.send("error while saving user records "+ JSON.stringify(err, undefined, 2))
     })
 })
