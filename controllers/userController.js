@@ -129,7 +129,7 @@ router.get('/image/:id', (req, res)=>{
 })
 
 router.post('/login', (req, res)=>{
-    userModel.find({email:req.body.email, pass:req.body.pass}, (err, docs)=> {
+    userModel.find({ $and: [ {email:req.body.email}, {password:req.body.pass} ] }, (err, docs)=> {
         if(!err) res.send(docs)
         else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
     })
