@@ -73,7 +73,7 @@ router.get('/consumer/:id', (req, res)=>{
         { 
             $addFields: {
                 "userObjectId": { 
-                    "$toObjectId": "$consumer" 
+                    "$toObjectId": "$serviceProvider" 
                 }
             }
         },
@@ -82,7 +82,7 @@ router.get('/consumer/:id', (req, res)=>{
                from: "users", 
                localField: "userObjectId",
                foreignField: "_id",
-               as: "consumerdetail"
+               as: "listingDetail"
             }
         },
         {
