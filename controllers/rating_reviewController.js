@@ -5,7 +5,31 @@ var { rating_reviewModel } = require('../models/dbModels')
 const fs = require('fs')
 
 router.get('/', (req, res)=>{
-    rating_reviewModel.find((err, docs)=> {
+    rating_reviewModel.aggregate([
+        { 
+            $addFields: {
+                "userObjectId": { 
+                    "$toObjectId": "$consumer" 
+                }
+            }
+        },
+        {
+            $lookup: {
+               from: "users", 
+               localField: "userObjectId",
+               foreignField: "_id",
+               as: "consumerdetail"
+            }
+        },
+        {
+            $lookup: {
+               from: "universalservices", 
+               localField: "string",
+               foreignField: "string",
+               as: "service"
+            }
+        },
+    ],(err, docs)=> {
         if(!err) res.send(docs)
         else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
     })
@@ -15,7 +39,7 @@ router.get('/', (req, res)=>{
 router.get('/:id', (req, res)=>{
     rating_reviewModel.aggregate([
         { 
-            $addFields: { 
+            $addFields: {
                 "userObjectId": { 
                     "$toObjectId": "$consumer" 
                 }
@@ -38,6 +62,38 @@ router.get('/:id', (req, res)=>{
             }
         },
         { $match : { serviceProvider : req.params.id } },
+    ],(err, docs)=> {
+        if(!err) res.send(docs)
+        else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
+    })
+})
+
+router.get('/consumer/:id', (req, res)=>{
+    rating_reviewModel.aggregate([
+        { 
+            $addFields: {
+                "userObjectId": { 
+                    "$toObjectId": "$consumer" 
+                }
+            }
+        },
+        {
+            $lookup: {
+               from: "users", 
+               localField: "userObjectId",
+               foreignField: "_id",
+               as: "consumerdetail"
+            }
+        },
+        {
+            $lookup: {
+               from: "universalservices", 
+               localField: "string",
+               foreignField: "string",
+               as: "service"
+            }
+        },
+        { $match : { consumer : req.params.id } },
     ],(err, docs)=> {
         if(!err) res.send(docs)
         else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
