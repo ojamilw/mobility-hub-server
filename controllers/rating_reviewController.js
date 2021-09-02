@@ -71,6 +71,7 @@ router.get('/detail', (req, res)=>{
                as: "service"
             }
         },
+        { $sort : { datetime : -1 } }
     ],(err, docs)=> {
         if(!err) res.send(docs)
         else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
