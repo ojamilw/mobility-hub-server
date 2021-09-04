@@ -65,10 +65,42 @@ router.get('/detail', (req, res)=>{
         },
         {
             $lookup: {
-               from: "universalservices", 
+               from: "universalservices",
                localField: "string",
                foreignField: "string",
                as: "service"
+            }
+        },
+        {
+            $unwind: {
+              path: "$service",
+              preserveNullAndEmptyArrays: true
+            }
+        },
+        {
+            $addFields: {
+                "theCategory": { 
+                    "$toObjectId": "$service.category" 
+                },
+                "theService": { 
+                    "$toObjectId": "$service.service" 
+                }
+            }
+        },
+        {
+            $lookup: {
+               from: "categories",
+               localField: "theCategory",
+               foreignField: "_id",
+               as: "service.categories"
+            }
+        },
+        {
+            $lookup: {
+               from: "services",
+               localField: "theService",
+               foreignField: "_id",
+               as: "service.services"
             }
         },
         { $sort : { datetime : -1 } }
@@ -129,7 +161,7 @@ router.get('/consumer/:id', (req, res)=>{
         },
         {
             $lookup: {
-               from: "universalservices", 
+               from: "universalservices",
                localField: "string",
                foreignField: "string",
                as: "service"
