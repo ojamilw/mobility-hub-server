@@ -11,6 +11,13 @@ router.get('/', (req, res)=>{
     })
 })
 
+router.get('/:id', (req, res)=>{
+    categoryModel.find({service:req.params.id},(err, docs)=> {
+        if(!err) res.send(docs)
+        else console.log("error while retrieving  all records "+ JSON.stringify(err, undefined, 2))
+    })
+})
+
 router.post('/', (req, res)=>{
     var newRecord = new categoryModel({
         name: req.body.name,
