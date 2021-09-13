@@ -30,7 +30,7 @@ router.get('/type/:id',  (req, res)=>{
         },
     ], async (err, docs)=> {
         if(!err) {
-            var newData = await docs.filter(element=>element.type == req.params.id && element.rating_review.length > 0)
+            var newData = await docs.filter(element=>element.type == req.params.id)
             res.send(newData)
         }
         else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
