@@ -1,7 +1,7 @@
 const express = require('express')
 var router = express.Router()
 var ObjectID = require('mongoose').Types.ObjectId
-var { userModel, mobilityPartnerModel } = require('../models/dbModels')
+var { userModel, mobilityPartnerModel, rating_reviewModel } = require('../models/dbModels')
 const fs = require('fs')
 
 router.get('/', (req, res)=>{
@@ -11,9 +11,28 @@ router.get('/', (req, res)=>{
     })
 })
 
-router.get('/type/:id', (req, res)=>{
-    userModel.find({type:req.params.id},(err, docs)=> {
-        if(!err) res.send(docs)
+router.get('/type/:id',  (req, res)=>{
+    userModel.aggregate([
+        { 
+            $addFields: {
+                "userObjectId": { 
+                    "$toString": "$_id" 
+                }
+            }
+        },
+        {
+            $lookup: {
+               from: "rating_reviews", 
+               localField: "userObjectId",
+               foreignField: "serviceProvider",
+               as: "rating_review"
+            }
+        },
+    ], async (err, docs)=> {
+        if(!err) {
+            var newData = await docs.filter(element=>element.type == req.params.id && element.rating_review.length > 0)
+            res.send(newData)
+        }
         else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
     })
 })
