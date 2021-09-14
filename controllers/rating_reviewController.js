@@ -184,7 +184,7 @@ router.get('/:directory/:service', (req, res)=>{
 
 router.post('/', async (req, res)=>{
     var allImages = req.body.images
-    const currentTime = moment().format().toString().replaceAll("-", "").replaceAll(":","").replaceAll("+","")
+    const currentTime = moment().format().toString().replace(/-/g, '').replace(/:/g, '').replace('+', '')
     var theImages = []
     if(allImages.length > 0){
         await allImages.map(async (element, index)=>{
