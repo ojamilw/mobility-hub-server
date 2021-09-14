@@ -3,6 +3,7 @@ var router = express.Router()
 var ObjectID = require('mongoose').Types.ObjectId
 var { rating_reviewModel } = require('../models/dbModels')
 const fs = require('fs')
+const moment = require('moment')
 
 router.get('/', (req, res)=>{
     rating_reviewModel.aggregate([
@@ -181,7 +182,20 @@ router.get('/:directory/:service', (req, res)=>{
     })
 })
 
-router.post('/', (req, res)=>{
+router.post('/', async (req, res)=>{
+    var allImages = req.body.images
+    const currentTime = moment().format().toString().replaceAll("-", "").replaceAll(":","").replaceAll("+","")
+    var theImages = []
+    if(allImages.length > 0){
+        await allImages.map(async (element, index)=>{
+            var theName = `img${currentTime}-${index}`
+            theImages.push({image:theName})
+            await fs.writeFile(`./uploads/${theName}.png`, element, 'base64', (err) => {
+                if (err) console.log(err)
+            })
+        })
+    }
+    
     var newRecord = new rating_reviewModel({
         consumer: req.body.consumer,
         service: req.body.service,
@@ -189,7 +203,7 @@ router.post('/', (req, res)=>{
         rating: req.body.rating, 
         review: req.body.review,
         datetime: Date.now(),
-        images: req.body.images,
+        images: theImages,
     })
 
     newRecord.save((err, docs)=>{
