@@ -6,20 +6,38 @@ var { universalServiceModel } = require('../models/dbModels')
 
 router.get('/', (req, res)=>{
     universalServiceModel.aggregate([
-        {
+        { 
+            $addFields: {
+                "categoryObjectId": { 
+                    "$toObjectId": "$category" 
+                },
+                "serviceObjectId": { 
+                    "$toObjectId": "$service" 
+                }
+            }
+        },
+        { 
             $lookup: {
                from: "services",
-               localField: "string",
-               foreignField: "string",
+               localField: "serviceObjectId",
+               foreignField: "_id",
                as: "service"
             }
         },
         {
             $lookup: {
                from: "categories", 
-               localField: "string",
-               foreignField: "string",
+               localField: "categoryObjectId",
+               foreignField: "_id",
                as: "category"
+            }
+        },
+        {
+            $lookup: {
+               from: "rating_reviews", 
+               localField: "service", 
+               foreignField: "service",
+               as: "reviewCount"
             }
         },
         
@@ -31,26 +49,36 @@ router.get('/', (req, res)=>{
 
 router.get('/:directory/:service', (req, res)=>{
     universalServiceModel.aggregate([
-        {
+        { 
+            $addFields: {
+                "categoryObjectId": { 
+                    "$toObjectId": "$category" 
+                },
+                "serviceObjectId": { 
+                    "$toObjectId": "$service" 
+                }
+            }
+        },
+        { 
             $lookup: {
                from: "services",
-               localField: "string",
-               foreignField: "string",
+               localField: "serviceObjectId",
+               foreignField: "_id",
                as: "service"
             }
         },
         {
             $lookup: {
                from: "categories", 
-               localField: "string",
-               foreignField: "string",
+               localField: "categoryObjectId",
+               foreignField: "_id",
                as: "category"
             }
         },
         {
             $lookup: {
                from: "rating_reviews", 
-               localField: "service",
+               localField: "service", 
                foreignField: "service",
                as: "reviewCount"
             }
