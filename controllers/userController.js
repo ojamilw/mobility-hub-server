@@ -150,7 +150,7 @@ router.post('/image/:id', (req, res)=>{
 })
 
 router.get('/image/:id', (req, res)=>{
-    if (fs.existsSync(`./uploads/${req.params.id}.png`)) {
+    if (fs.existsSync(`./uploads/profile-${req.params.id}.png`)) {
         res.send({profile: true})
     } else {
         res.send({profile: null})
