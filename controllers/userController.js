@@ -10,10 +10,7 @@ router.get('/', (req, res)=>{
         else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
     })
 })
-/*
 
-{ $project: { "<field1>": 0, "<field2>": 0, ... } }
-*/
 router.get('/type/:id',  (req, res)=>{
     userModel.aggregate([
         {
@@ -138,15 +135,14 @@ router.post('/consumer', (req, res)=>{
     })
 })
 
-router.post('/image/:id', (req, res)=>{
-    try {
-        fs.writeFile(`./uploads/profile-${req.params.id}.png`, req.body.imgsource, 'base64', (err) => {
-            if (err) res.send(err)
-            else res.send(true)
-        })
-    } catch (error) {
-        console.log(error)
+router.post('/image/:id', async (req, res)=>{
+    if (fs.existsSync(`./uploads/profile-${req.params.id}.png`)) {
+        await fs.unlinkSync(`./uploads/profile-${req.params.id}.png`)
     }
+    fs.writeFile(`./uploads/profile-${req.params.id}.png`, req.body.imgsource, 'base64', (err) => {
+        if (err) res.send(err)
+        else res.send(true)
+    })
 })
 
 router.get('/image/:id', (req, res)=>{
