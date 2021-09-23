@@ -10,28 +10,40 @@ router.get('/', (req, res)=>{
         else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
     })
 })
+/*
 
+{ $project: { "<field1>": 0, "<field2>": 0, ... } }
+*/
 router.get('/type/:id',  (req, res)=>{
     userModel.aggregate([
-        { 
+        {
             $addFields: {
-                "userObjectId": { 
-                    "$toString": "$_id" 
+                "userObjectId": {
+                    "$toString": "$_id"
                 }
             }
         },
         {
             $lookup: {
-               from: "rating_reviews", 
-               localField: "userObjectId",
-               foreignField: "serviceProvider",
-               as: "rating_review"
+                from: "rating_reviews", 
+                localField: "userObjectId",
+                foreignField: "serviceProvider",
+                as: "rating_review"
             }
         },
     ], async (err, docs)=> {
         if(!err) {
             var newData = await docs.filter(element=>element.type == req.params.id)
-            res.send(newData)
+            res.send(newData.slice(0, 10))
+        }
+        else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
+    })
+})
+
+router.get('/mapType',  (req, res)=>{
+    userModel.find((err, docs)=> {
+        if(!err) {
+            res.send(docs)
         }
         else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
     })
@@ -128,11 +140,10 @@ router.post('/consumer', (req, res)=>{
 
 router.post('/image/:id', (req, res)=>{
     try {
-        fs.writeFile(`./uploads/${req.params.id}.png`, req.body.imgsource, 'base64', (err) => {
+        fs.writeFile(`./uploads/profile-${req.params.id}.png`, req.body.imgsource, 'base64', (err) => {
             if (err) res.send(err)
             else res.send(true)
         })
-        
     } catch (error) {
         console.log(error)
     }
@@ -140,8 +151,7 @@ router.post('/image/:id', (req, res)=>{
 
 router.get('/image/:id', (req, res)=>{
     if (fs.existsSync(`./uploads/${req.params.id}.png`)) {
-        var imageAsBase64 = fs.readFileSync(`./uploads/${req.params.id}.png`, 'base64');
-        res.send({profile: imageAsBase64})
+        res.send({profile: true})
     } else {
         res.send({profile: null})
     }
