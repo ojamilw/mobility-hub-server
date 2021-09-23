@@ -147,7 +147,8 @@ router.post('/image/:id', async (req, res)=>{
 
 router.get('/image/:id', (req, res)=>{
     if (fs.existsSync(`./uploads/profile-${req.params.id}.png`)) {
-        res.send({profile: true})
+        var imageAsBase64 = fs.readFileSync(`./uploads/profile-${req.params.id}.png`, 'base64');
+        res.send({profile: imageAsBase64})
     } else {
         res.send({profile: null})
     }
