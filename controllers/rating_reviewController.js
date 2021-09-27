@@ -168,7 +168,7 @@ router.get('/:id', (req, res)=>{
                foreignField: "_id",
                as: "service.categories"
             }
-        },
+        }, 
         {
             $lookup: {
                from: "services",
@@ -178,6 +178,7 @@ router.get('/:id', (req, res)=>{
             }
         },
         { $match : { serviceProvider : req.params.id } },
+        { $sort : { datetime : -1 } },
     ],(err, docs)=> {
         if(!err) res.send(docs)
         else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
