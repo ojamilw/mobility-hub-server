@@ -123,6 +123,9 @@ router.get('/:id', (req, res)=>{
             $addFields: {
                 "userObjectId": { 
                     "$toObjectId": "$consumer" 
+                },
+                "serviceObjectId":{
+                    "$toObjectId": "$service"
                 }
             }
         },
@@ -137,9 +140,41 @@ router.get('/:id', (req, res)=>{
         {
             $lookup: {
                from: "universalservices", 
-               localField: "string",
-               foreignField: "string",
+               localField: "serviceObjectId",
+               foreignField: "_id",
                as: "service"
+            }
+        },
+        {
+            $unwind: {
+              path: "$service",
+              preserveNullAndEmptyArrays: true
+            }
+        },
+        {
+            $addFields: {
+                "theCategory": { 
+                    "$toObjectId": "$service.category" 
+                },
+                "theService": { 
+                    "$toObjectId": "$service.service" 
+                }
+            }
+        },
+        {
+            $lookup: {
+               from: "categories",
+               localField: "theCategory",
+               foreignField: "_id",
+               as: "service.categories"
+            }
+        },
+        {
+            $lookup: {
+               from: "services",
+               localField: "theService",
+               foreignField: "_id",
+               as: "service.services"
             }
         },
         { $match : { serviceProvider : req.params.id } },
