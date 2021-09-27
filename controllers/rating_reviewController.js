@@ -1,7 +1,7 @@
 const express = require('express')
 var router = express.Router()
 var ObjectID = require('mongoose').Types.ObjectId
-var { rating_reviewModel } = require('../models/dbModels')
+var { rating_reviewModel, userModel, universalServiceModel } = require('../models/dbModels')
 const fs = require('fs')
 const moment = require('moment')
 
@@ -237,6 +237,14 @@ router.post('/', async (req, res)=>{
             })
         })
     }
+    var updateRecord = {
+        keywords: req.body.keywords
+    }
+
+    userModel.findByIdAndUpdate(req.body.serviceProvider, {$set: updateRecord}, (err, docs)=>{
+        if(err) res.send("error while updating user records "+ JSON.stringify(err, undefined, 2))
+    })
+    
     var newRecord = new rating_reviewModel({
         consumer: req.body.consumer,
         service: req.body.service,
@@ -251,6 +259,31 @@ router.post('/', async (req, res)=>{
         if(!err) res.send(docs)
         else res.send("error while saving user records "+ JSON.stringify(err, undefined, 2))
     })
+
+    // const updateRecord = {
+    //     keywords:[]
+    // }
+    // userModel.findByIdAndUpdate(req.params.id, {$set: updateRecord}, (err, docs)=>{
+    //     if(!err) res.send(docs)
+    //     else res.send("error while updating user records "+ JSON.stringify(err, undefined, 2))
+    // })
+})
+
+router.post('/checking', async (req, res)=>{
+    //res.send(req.body.serviceProvider)
+    userModel.findOne({_id: new ObjectID(req.body.serviceProvider)}, 
+    function(err, doc){
+        if(err) res.send(error)
+        else res.send(doc)
+    })
+
+    // const updateRecord = {
+    //     keywords:[]
+    // }
+    // userModel.findByIdAndUpdate(req.params.id, {$set: updateRecord}, (err, docs)=>{
+    //     if(!err) res.send(docs)
+    //     else res.send("error while updating user records "+ JSON.stringify(err, undefined, 2))
+    // })
 })
 
 router.delete('/:id', (req, res)=>{
@@ -262,5 +295,7 @@ router.delete('/:id', (req, res)=>{
         else res.send("error while removing user records "+ JSON.stringify(err, undefined, 2))
     })
 })
+
+
 
 module.exports = router
