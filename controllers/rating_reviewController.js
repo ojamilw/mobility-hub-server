@@ -113,6 +113,85 @@ router.get('/detail', (req, res)=>{
         else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
     })
 })
+
+router.get('/detail/:id', (req, res)=>{
+    rating_reviewModel.aggregate([
+        { 
+            $addFields: {
+                "consumerObjectId": {
+                    "$toObjectId": "$consumer" 
+                },
+                "serviceProviderObjectId": { 
+                    "$toObjectId": "$serviceProvider" 
+                },
+                "serviceObjectId":{
+                    "$toObjectId": "$service"
+                }
+            }
+        },
+        {
+            $lookup: {
+               from: "users", 
+               localField: "consumerObjectId",
+               foreignField: "_id",
+               as: "consumerDetail"
+            }
+        },
+        { 
+            $lookup: {
+               from: "users", 
+               localField: "serviceProviderObjectId",
+               foreignField: "_id",
+               as: "serviceProviderDetail"
+            }
+        },
+        {
+            $lookup: {
+               from: "universalservices",
+               localField: "serviceObjectId",
+               foreignField: "_id",
+               as: "service"
+            }
+        },
+        {
+            $unwind: {
+              path: "$service",
+              preserveNullAndEmptyArrays: true
+            }
+        },
+        {
+            $addFields: {
+                "theCategory": { 
+                    "$toObjectId": "$service.category" 
+                },
+                "theService": { 
+                    "$toObjectId": "$service.service" 
+                }
+            }
+        },
+        {
+            $lookup: {
+               from: "categories",
+               localField: "theCategory",
+               foreignField: "_id",
+               as: "service.categories"
+            }
+        },
+        {
+            $lookup: {
+               from: "services",
+               localField: "theService",
+               foreignField: "_id",
+               as: "service.services"
+            }
+        },
+        { $match : { serviceProvider: req.params.id}},
+        { $sort : { datetime : -1 } }
+    ],(err, docs)=> {
+        if(!err) res.send(docs)
+        else res.send("error while retrieving user all records "+ JSON.stringify(err, undefined, 2))
+    })
+})
 /**
  * 
         
