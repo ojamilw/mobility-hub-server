@@ -29,12 +29,12 @@ router.post('/', (req, res)=>{
         modelID: req.body.modelID,
         version: req.body.version,
         versionID: req.body.versionID,
-        consumer: req.body.id
+        consumer: req.body.consumer
     })
 
     newRecord.save((err, docs)=>{
         if(!err) res.send(docs)
-        else console.log("error while saving  records "+ JSON.stringify(err, undefined, 2))
+        else res.send("error while saving  records "+ JSON.stringify(err, undefined, 2))
     })
 })
 
