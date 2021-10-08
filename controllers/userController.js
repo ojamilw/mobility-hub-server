@@ -166,8 +166,7 @@ router.put('/:id', (req, res)=>{
     return res.status(400).send("No record with given id: "+req.params.id)
 
     var updateRecord = {
-        name: req.body.name,
-        pass: req.body.pass
+        name: req.body.name
     }
 
     userModel.findByIdAndUpdate(req.params.id, {$set: updateRecord}, (err, docs)=>{
