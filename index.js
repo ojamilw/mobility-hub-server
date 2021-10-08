@@ -18,6 +18,7 @@ var yearControllerRoutes = require('./controllers/yearController')
 var modelConrollerRoutes = require('./controllers/modelController')
 var versionControllerRoutes = require('./controllers/versionController')
 var mapControllerRoutes = require('./controllers/mapController')
+var mobilityPartnerRoutes = require('./controllers/mobilityPartnerController')
 
 var app = express()
 
@@ -43,6 +44,7 @@ app.use('/make', makeControllerRoutes)
 app.use('/year', yearControllerRoutes)
 app.use('/model', modelConrollerRoutes)
 app.use('/version', versionControllerRoutes)
+app.use('/myvehicle', mobilityPartnerRoutes)
 
 app.use('/map', mapControllerRoutes)
 
