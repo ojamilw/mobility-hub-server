@@ -6,7 +6,7 @@ var { yearModel } = require('../models/dbModels')
 
 router.get('/', (req, res)=>{
     yearModel.find((err, docs)=> {
-        if(!err) res.send(docs)
+        if(!err) res.send(docs.sort(function(a,b){return parseInt(b.name) - parseInt(a.name)}))
         else console.log("error while retrieving  all records "+ JSON.stringify(err, undefined, 2))
     })
 })
@@ -20,6 +20,22 @@ router.post('/', (req, res)=>{
         if(!err) res.send(docs)
         else console.log("error while saving  records "+ JSON.stringify(err, undefined, 2))
     })
+})
+
+router.post('/bulk', async (req, res)=>{
+    var i = 2000
+    while (i <= 2018){
+        var newRecord = new yearModel({
+            name: i,
+        })
+    
+        newRecord.save((err, docs)=>{
+            if(err) console.log("error while saving  records "+ JSON.stringify(err, undefined, 2))
+        })
+
+        i++
+    }
+    res.send(true)
 })
 
 router.put('/:id', (req, res)=>{
