@@ -17,6 +17,7 @@ var userModel = mongoose.model('user', {
     social : {type:Array},
     password : {type:String},
     type: {type:Number},
+    keywords : {type:Array},
 });
 
 var serviceModel = mongoose.model('service', {
@@ -97,6 +98,17 @@ var mobilityPartnerModel = mongoose.model('mobilitypartner',{
     consumer: {type: String, required: true}
 })
 
+var postModel = mongoose.model('post',{
+    user: {type: Object, required:true},
+    description: {type: String},
+    images: {type: Array, required:true},
+    datetime: {type: Date, required:true},
+    review_rating: {type: Array},
+    datetime: {type: Date, required:true},
+    avg_rating: {type: Number, default:0},
+    count_rating: {type: Number, default:0}
+})
+
 module.exports = {
     userModel, 
     serviceModel, 
@@ -110,5 +122,6 @@ module.exports = {
     yearModel,
     modelModel,
     versionModel,
-    mobilityPartnerModel
+    mobilityPartnerModel,
+    postModel
 } 
