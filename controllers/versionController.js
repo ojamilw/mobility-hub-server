@@ -15,15 +15,7 @@ router.get('/:model', (req, res)=>{
     versionModel.aggregate([
         {
             $addFields: {
-                "modelObject": { "$toObjectId": "$model" }
-            }
-        },
-        {
-            $lookup: {
-               from: "models",
-               localField: "modelObject",
-               foreignField: "_id",
-               as: "themodel"
+                "providerObject": { "$toString": "$_id" }
             }
         },
         { $match : {model: req.params.model}},

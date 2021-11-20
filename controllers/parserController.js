@@ -2,11 +2,11 @@ const express = require('express')
 var router = express.Router()
 var { userModel } = require('../models/dbModels')
 
-router.post('/', (req, res)=>{
+router.post('/', async (req, res)=>{
     var data = req.body
-    var i = 0;
+    var i = 100;
     var records = []
-    data.map((item) => {
+    await data.map( async (item) => {
         i++;
         var email = `email${i}@gmail.com`;
         var newRecord = new userModel({
@@ -38,19 +38,17 @@ router.post('/', (req, res)=>{
                     "facebook":""
                 }
             ],
-            password: "123",
+            password: "111",
             type: 1, 
         });
 
-        try {
-            newRecord.save((err, docs)=>{
-                if(err) res.send("error while saving user records "+ JSON.stringify(err, undefined, 2))
-                else records.push(docs[0])
-            })
-        } catch (error) {
-            console.log(error)
-        }
+        await newRecord.save((err, docs)=>{
+            if(err) res.send("error while saving user records "+ JSON.stringify(err, undefined, 2))
+            else records.push(docs[0])
+        })
+        
     })
+    res.send("All records is saved")
 })
 
 

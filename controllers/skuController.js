@@ -15,11 +15,22 @@ router.post('/', (req, res)=>{
     var newRecord = new skuModel({
         name: req.body.name,
     })
-
     newRecord.save((err, docs)=>{
         if(!err) res.send(docs)
         else console.log("error while saving  records "+ JSON.stringify(err, undefined, 2))
     })
+})
+
+router.post('/bulk', async (req, res)=>{
+    await req.body.map(async element=>{
+        var newRecord = new skuModel({
+            name: element.name,
+        })
+        await newRecord.save((err, docs)=>{
+            if(err) console.log("error while saving  records "+ JSON.stringify(err, undefined, 2))
+        })
+    })
+    res.send(true)
 })
 
 router.put('/:id', (req, res)=>{
